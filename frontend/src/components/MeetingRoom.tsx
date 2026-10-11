@@ -3,7 +3,8 @@ import {
   VideoConference,
 } from '@livekit/components-react'
 import '@livekit/components-styles'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 interface MeetingRoomProps {
   serverUrl: string
@@ -24,6 +25,28 @@ export default function MeetingRoom({
 }: MeetingRoomProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [message, setMessage] = useState('')
+  const [controlBar, setControlBar] = useState<HTMLElement | null>(null)
+
+  useEffect(() => {
+    const findControlBar = () => document.querySelector<HTMLElement>('.lk-control-bar')
+    const existingControlBar = findControlBar()
+
+    if (existingControlBar) {
+      setControlBar(existingControlBar)
+      return
+    }
+
+    const observer = new MutationObserver(() => {
+      const element = findControlBar()
+      if (element) {
+        setControlBar(element)
+        observer.disconnect()
+      }
+    })
+
+    observer.observe(document.body, { childList: true, subtree: true })
+    return () => observer.disconnect()
+  }, [])
 
   function getInviteUrl() {
     const url = new URL(window.location.href)
@@ -78,53 +101,52 @@ export default function MeetingRoom({
     >
       <VideoConference />
 
+      {controlBar &&
+        createPortal(
+          <div className="relative inline-flex shrink-0 items-center">
+            {message && (
+              <span
+                role="status"
+                className="absolute bottom-full right-0 mb-3 w-max max-w-[calc(100vw-2rem)] rounded-lg bg-slate-900/95 px-3 py-2 text-sm text-white shadow-lg"
+              >
+                {message}
+              </span>
+            )}
 
-      <VideoConference />
+            <button
+              type="button"
+              aria-label={menuOpen ? 'Close meeting options' : 'Open meeting options'}
+              aria-expanded={menuOpen}
+              onClick={() => {
+                setMenuOpen((open) => !open)
+                setMessage('')
+              }}
+              className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-600 bg-neutral-800 text-xl font-bold text-white shadow-sm transition hover:bg-neutral-700"
+            >
+              ⋯
+            </button>
 
-      <div className="fixed bottom-24 right-4 z-[100] flex items-center gap-2">
-        {message && (
-          <span
-            role="status"
-            className="max-w-[calc(100vw-2rem)] rounded-lg bg-slate-900/95 px-3 py-2 text-sm text-white shadow-lg"
-          >
-            {message}
-          </span>
+            {menuOpen && (
+              <div className="absolute bottom-full right-0 mb-2 flex min-w-48 flex-col gap-1 rounded-xl border border-slate-700 bg-slate-900 p-2 text-white shadow-xl">
+                <button
+                  type="button"
+                  onClick={() => void copyInviteLink()}
+                  className="rounded-lg px-4 py-3 text-left text-sm font-medium transition hover:bg-slate-800"
+                >
+                  Copy invite link
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void shareMeeting()}
+                  className="rounded-lg px-4 py-3 text-left text-sm font-medium transition hover:bg-slate-800"
+                >
+                  Share meeting
+                </button>
+              </div>
+            )}
+          </div>,
+          controlBar,
         )}
-
-        <div className="relative">
-          <button
-            type="button"
-            aria-label={menuOpen ? 'Close meeting options' : 'Open meeting options'}
-            aria-expanded={menuOpen}
-            onClick={() => {
-              setMenuOpen((open) => !open)
-              setMessage('')
-            }}
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-600 bg-slate-900/95 text-2xl font-bold text-white shadow-lg transition hover:bg-slate-800"
-          >
-            ⋯
-          </button>
-
-          {menuOpen && (
-            <div className="absolute bottom-full right-0 mb-2 flex min-w-48 flex-col gap-1 rounded-xl border border-slate-700 bg-slate-900 p-2 text-white shadow-xl">
-              <button
-                type="button"
-                onClick={() => void copyInviteLink()}
-                className="rounded-lg px-4 py-3 text-left text-sm font-medium transition hover:bg-slate-800"
-              >
-                Copy invite link
-              </button>
-              <button
-                type="button"
-                onClick={() => void shareMeeting()}
-                className="rounded-lg px-4 py-3 text-left text-sm font-medium transition hover:bg-slate-800"
-              >
-                Share meeting
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
 
     </LiveKitRoom>
   )

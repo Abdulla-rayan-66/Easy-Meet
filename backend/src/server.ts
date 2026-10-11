@@ -16,7 +16,7 @@ app.use(express.json({ limit: "10kb" }));
 app.get("/api/health", (_req, res) => {
     res.status(200).json({
         status: "ok",
-        service: "Meetora API",
+        service: "Easy-Meet API",
     });
 });
 
@@ -89,11 +89,11 @@ async function startServer(): Promise<void> {
     await mongoose.connect(mongoUri);
 
     app.listen(port, () => {
-        console.log(`Meetora API running on port ${port}`);
+        console.log(`Easy-Meet API running on port ${port}`);
     });
 }
 
 startServer().catch((error: unknown) => {
-    console.error("Failed to start Meetora API:", error);
+    console.error("Failed to start Easy-Meet API:", error);
     process.exitCode = 1;
 });

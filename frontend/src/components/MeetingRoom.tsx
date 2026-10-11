@@ -44,12 +44,12 @@ export default function MeetingRoom({
 
   async function shareMeeting() {
     const inviteUrl = getInviteUrl()
-    const shareText = `Join my Meetora meeting. Meeting code: ${meetingCode}`
+    const shareText = `Join my Easy-Meet meeting. Meeting code: ${meetingCode}`
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Join my Meetora meeting',
+          title: 'Join my Easy-Meet meeting',
           text: shareText,
           url: inviteUrl,
         })

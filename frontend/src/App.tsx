@@ -127,7 +127,7 @@ function App() {
       <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4 py-10 text-white">
         <div className="w-full max-w-2xl rounded-3xl border border-slate-800 bg-slate-900 p-6 sm:p-10">
           <div className="mb-6">
-            <p className="text-sm font-medium text-blue-400">MEETORA</p>
+            <p className="text-sm font-medium text-blue-400">EASY-MEET</p>
             <h1 className="mt-2 text-3xl font-bold">Ready to join?</h1>
             <p className="mt-2 text-slate-400">Meeting code: {pendingRoomName}</p>
             <p className="mt-1 text-sm text-slate-400">
@@ -197,7 +197,7 @@ function App() {
       <header className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
         <a href="/" onClick={(event) => { event.preventDefault(); cleanMeetingUrl(); setModal(null); setMeetingCode(''); setPendingRoomName('') }} className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-xl font-bold">M</div>
-          <span className="text-2xl font-bold tracking-tight">Meetora</span>
+          <span className="text-2xl font-bold tracking-tight">Easy-Meet</span>
         </a>
 
         <nav className="hidden items-center gap-8 text-sm text-slate-300 md:flex">
@@ -220,7 +220,7 @@ function App() {
             </h1>
 
             <p className="mt-6 max-w-xl text-lg leading-8 text-slate-400">
-              Meetora makes it easy to connect, collaborate, and share ideas through seamless online meetings.
+              Easy-Meet makes it easy to connect, collaborate, and share ideas through seamless online meetings.
             </p>
 
             <div className="mt-9 flex flex-wrap gap-4">
@@ -253,7 +253,7 @@ function App() {
               <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
                   <p className="font-semibold">Team Standup</p>
-                  <p className="mt-1 text-xs text-slate-400">Meetora video meeting</p>
+                  <p className="mt-1 text-xs text-slate-400">Easy-Meet video meeting</p>
                 </div>
                 <span className="rounded-lg bg-red-500/15 px-3 py-1 text-xs text-red-300">● Live preview</span>
               </div>
@@ -301,7 +301,7 @@ function App() {
 
         <section id="about" className="border-t border-slate-800 px-6 py-8">
           <div className="mx-auto flex max-w-7xl flex-col justify-between gap-3 text-sm text-slate-500 sm:flex-row">
-            <p>© {new Date().getFullYear()} Meetora. Built for better conversations.</p>
+            <p>© {new Date().getFullYear()} Easy-Meet. Built for better conversations.</p>
             <p>A real-time communication project.</p>
           </div>
         </section>
@@ -312,7 +312,7 @@ function App() {
           <div role="dialog" aria-modal="true" aria-labelledby="meeting-dialog-title" className="w-full max-w-lg rounded-3xl border border-slate-700 bg-slate-900 p-6 shadow-2xl sm:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold tracking-wide text-blue-400">MEETORA</p>
+                <p className="text-sm font-semibold tracking-wide text-blue-400">EASY-MEET</p>
                 <h2 id="meeting-dialog-title" className="mt-2 text-2xl font-bold">
                   {modal === 'start' ? 'Start a meeting' : 'Join a meeting'}
                 </h2>
